@@ -5,22 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Richard Marlon Santos Oliveira - Portfólio</title>
     <style>
+        * {
+            --neon-hue: 30;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #f0f0f0, #e0e0e0, #d0d0d0, #c0c0c0);
-            background-size: 300% 300%;
-            animation: softShift 20s ease-in-out infinite;
+            background: linear-gradient(135deg, hsl(30, 80%, 60%), hsl(25, 75%, 55%), hsl(35, 85%, 65%), hsl(20, 70%, 50%));
+            background-size: 400% 400%;
+            animation: neonShift 15s ease-in-out infinite;
             color: #333;
             overflow-x: hidden;
             position: relative;
+            min-height: 100vh;
         }
 
-        @keyframes softShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes neonShift {
+            0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+            25% { background-position: 100% 50%; filter: hue-rotate(15deg); }
+            50% { background-position: 50% 100%; filter: hue-rotate(30deg); }
+            75% { background-position: 0% 50%; filter: hue-rotate(15deg); }
+            100% { background-position: 0% 50%; filter: hue-rotate(0deg); }
         }
 
         body::before {
@@ -30,22 +37,26 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at top, rgba(200, 200, 200, 0.3) 0%, transparent 50%),
-                        radial-gradient(ellipse at bottom, rgba(180, 180, 180, 0.2) 0%, transparent 50%);
-            animation: gentlePulse 15s ease-in-out infinite alternate;
+            background: 
+                radial-gradient(ellipse at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 180, 100, 0.3) 0%, transparent 30%),
+                radial-gradient(ellipse at top, rgba(255, 150, 80, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(200, 100, 50, 0.2) 0%, transparent 50%);
+            animation: neonGlow 3s ease-in-out infinite;
             pointer-events: none;
+            mix-blend-mode: screen;
         }
 
-        @keyframes gentlePulse {
-            0% { opacity: 0.5; transform: scale(1); }
-            100% { opacity: 0.8; transform: scale(1.05); }
+        @keyframes neonGlow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.9; }
         }
 
         .floating-shape {
             position: absolute;
             border-radius: 50%;
-            background: rgba(160, 160, 160, 0.1);
+            background: radial-gradient(circle, rgba(255, 200, 100, 0.15) 0%, rgba(255, 150, 80, 0.05) 100%);
             animation: float 25s ease-in-out infinite;
+            box-shadow: 0 0 30px rgba(255, 150, 80, 0.4), inset 0 0 30px rgba(255, 200, 100, 0.2);
         }
 
         .shape1 {
@@ -90,8 +101,12 @@
         header {
             text-align: center;
             padding: 50px 20px;
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(250, 250, 250, 0.95));
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.2),
+                0 0 60px rgba(255, 150, 80, 0.4);
+            position: relative;
+            border-bottom: 3px solid rgba(255, 150, 80, 0.5);
         }
 
         header h1 {
@@ -116,15 +131,21 @@
         section {
             margin: 40px 0;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            transform: perspective(1000px) rotateX(5deg);
-            transition: transform 0.3s;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(250, 250, 250, 0.95));
+            border-radius: 15px;
+            box-shadow: 
+                0 15px 50px rgba(0, 0, 0, 0.15),
+                0 0 40px rgba(255, 150, 80, 0.25);
+            transform: perspective(1000px) rotateX(2deg);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            border: 1px solid rgba(255, 150, 80, 0.2);
         }
 
         section:hover {
-            transform: perspective(1000px) rotateX(0deg);
+            transform: perspective(1000px) rotateX(0deg) translateY(-5px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.2),
+                0 0 50px rgba(255, 150, 80, 0.4);
         }
 
         section h2 {
@@ -136,18 +157,24 @@
         }
 
         .card {
-            background: rgba(240, 240, 240, 0.8);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(250, 245, 240, 0.9));
             padding: 20px;
             margin: 20px 0;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transform: perspective(500px) rotateY(5deg);
-            transition: transform 0.3s;
+            border-radius: 12px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.12),
+                0 0 25px rgba(255, 150, 80, 0.2);
+            transform: perspective(600px) rotateY(3deg);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
             color: #333;
+            border: 1px solid rgba(255, 150, 80, 0.15);
         }
 
         .card:hover {
-            transform: perspective(500px) rotateY(0deg);
+            transform: perspective(600px) rotateY(0deg) translateZ(10px);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.15),
+                0 0 35px rgba(255, 150, 80, 0.3);
         }
 
         .image-3d {
@@ -181,26 +208,53 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            perspective: 1000px;
+            gap: 20px;
         }
 
         .certificate {
             width: 300px;
             height: 200px;
-            background: rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 245, 245, 0.95) 100%);
             margin: 10px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transform: perspective(400px) rotateY(10deg);
-            transition: transform 0.3s;
+            border-radius: 15px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                0 0 40px rgba(255, 150, 80, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transform: perspective(1000px) rotateY(15deg) rotateX(5deg) translateZ(20px);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             color: #333;
+            position: relative;
+            border: 2px solid rgba(255, 150, 80, 0.3);
+            overflow: hidden;
+        }
+
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .certificate:hover::before {
+            left: 100%;
         }
 
         .certificate:hover {
-            transform: perspective(400px) rotateY(0deg);
+            transform: perspective(1000px) rotateY(-5deg) rotateX(-5deg) translateZ(40px) scale(1.05);
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.4),
+                0 0 60px rgba(255, 150, 80, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
     </style>
 </head>
@@ -315,6 +369,40 @@
             </div>
         </section>
     </main>
+
+    <script>
+        // Efeito interativo com movimento do mouse
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.documentElement.style.setProperty('--mouse-x', `${x}%`);
+            document.documentElement.style.setProperty('--mouse-y', `${y}%`);
+            
+            // Atualizar hue baseado na posição do mouse
+            const hue = (x + y) % 60;
+            document.documentElement.style.setProperty('--neon-hue', hue);
+        });
+
+        // Efeito 3D nos certificados ao mover mouse
+        const certificates = document.querySelectorAll('.certificate');
+        
+        certificates.forEach(cert => {
+            cert.addEventListener('mousemove', (e) => {
+                const rect = cert.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const rotX = ((y / rect.height) - 0.5) * 20;
+                const rotY = ((x / rect.width) - 0.5) * -20;
+                
+                cert.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(40px) scale(1.05)`;
+            });
+            
+            cert.addEventListener('mouseleave', () => {
+                cert.style.transform = 'perspective(1000px) rotateY(-5deg) rotateX(-5deg) translateZ(40px) scale(1.05)';
+            });
+        });
+    </script>
 </body>
 </html>
             <div class="certificate">
