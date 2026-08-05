@@ -1,51 +1,67 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+<!-- ===== METADADOS DA PÁGINA =====
+     Configurações que o navegador e os mecanismos de busca leem,
+     mas que não aparecem visualmente na página. -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Portfólio de Richard Marlon Santos Oliveira — Engenharia de Software">
 <title>Richard Marlon Santos Oliveira</title>
+
+<!-- Carrega as fontes do Google Fonts usadas no site (títulos serifados + texto padrão) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
 <style>
+  /* ===== RESET GLOBAL =====
+     Zera margens/paddings padrão do navegador e faz todo elemento
+     considerar padding/border dentro da largura total (box-sizing). */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* ===== VARIÁVEIS DE COR (design tokens) =====
+     Centraliza a paleta de cores em um só lugar: para trocar o tema
+     do site, basta alterar os valores aqui em vez de procurar em todo o CSS. */
   :root {
-    --bg: #0d0d0d;
-    --bg2: #141414;
-    --bg3: #1a1a1a;
-    --line: rgba(255,255,255,0.07);
-    --line2: rgba(255,255,255,0.12);
-    --text: #f0ede8;
-    --muted: #888882;
-    --accent: #c8a96e;
-    --accent2: #e8c990;
-    --tag-bg: rgba(200,169,110,0.12);
-    --tag-border: rgba(200,169,110,0.3);
+    --bg: #0d0d0d;          /* fundo principal (quase preto) */
+    --bg2: #141414;         /* fundo levemente mais claro (cards) */
+    --bg3: #1a1a1a;         /* fundo de hover */
+    --line: rgba(255,255,255,0.07);   /* linhas divisórias sutis */
+    --line2: rgba(255,255,255,0.12);  /* linhas um pouco mais visíveis */
+    --text: #f0ede8;        /* cor principal do texto (quase branco) */
+    --muted: #888882;       /* texto secundário/apagado */
+    --accent: #c8a96e;      /* dourado — cor de destaque da marca */
+    --accent2: #e8c990;     /* dourado mais claro (hover) */
+    --tag-bg: rgba(200,169,110,0.12);     /* fundo das tags de skills */
+    --tag-border: rgba(200,169,110,0.3);  /* borda das tags de skills */
   }
 
+  /* Faz os links de âncora (#sobre, #contato...) rolarem suavemente até a seção */
   html { scroll-behavior: smooth; }
 
+  /* Estilo base aplicado ao corpo inteiro da página */
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow-x: hidden; /* evita barra de rolagem horizontal indesejada */
   }
 
-  /* ── NAV ── */
+  /* ══════════════════════════════════════════════
+     FASE 1 — MENU DE NAVEGAÇÃO (topo fixo do site)
+     ══════════════════════════════════════════════ */
   nav {
-    position: fixed;
+    position: fixed;        /* fica grudado no topo mesmo rolando a página */
     top: 0; left: 0; right: 0;
-    z-index: 100;
+    z-index: 100;            /* garante que fique acima do resto do conteúdo */
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* logo à esquerda, links à direita */
     align-items: center;
     padding: 1.25rem 3rem;
     background: rgba(13,13,13,0.85);
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px); /* efeito de vidro fosco atrás do menu */
     border-bottom: 0.5px solid var(--line);
   }
 
@@ -60,7 +76,7 @@
   .nav-links {
     display: flex;
     gap: 2rem;
-    list-style: none;
+    list-style: none; /* remove as bolinhas padrão da lista <ul> */
   }
 
   .nav-links a {
@@ -70,21 +86,24 @@
     font-weight: 300;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    transition: color 0.2s;
+    transition: color 0.2s; /* suaviza a troca de cor no hover */
   }
   .nav-links a:hover { color: var(--text); }
 
-  /* ── HERO ── */
+  /* ══════════════════════════════════════════════
+     FASE 2 — HERO (primeira dobra: nome, bio, CTA)
+     ══════════════════════════════════════════════ */
   .hero {
-    min-height: 100vh;
+    min-height: 100vh; /* ocupa a tela toda ao carregar a página */
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-end; /* empurra o conteúdo para a base da tela */
     padding: 0 3rem 5rem;
-    position: relative;
+    position: relative;  /* necessário para o ::before e .hero-meta se posicionarem */
     overflow: hidden;
   }
 
+  /* Camada decorativa: dois brilhos dourados suaves atrás do texto do hero */
   .hero::before {
     content: '';
     position: absolute;
@@ -92,7 +111,7 @@
     background:
       radial-gradient(ellipse 60% 50% at 80% 30%, rgba(200,169,110,0.08) 0%, transparent 70%),
       radial-gradient(ellipse 40% 60% at 20% 80%, rgba(200,169,110,0.04) 0%, transparent 60%);
-    pointer-events: none;
+    pointer-events: none; /* garante que não bloqueie cliques no conteúdo real */
   }
 
   .hero-eyebrow {
@@ -106,7 +125,7 @@
 
   .hero-name {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(3.2rem, 7vw, 6.5rem);
+    font-size: clamp(3.2rem, 7vw, 6.5rem); /* tamanho fluido: mínimo, ideal, máximo */
     line-height: 1.03;
     letter-spacing: -0.01em;
     color: var(--text);
@@ -116,7 +135,7 @@
 
   .hero-name em {
     font-style: italic;
-    color: var(--accent);
+    color: var(--accent); /* destaca o "Marlon" em dourado */
   }
 
   .hero-bio {
@@ -132,9 +151,10 @@
     display: flex;
     gap: 1rem;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* quebra linha em telas pequenas */
   }
 
+  /* Botão de destaque (preenchido) — ex: link do LinkedIn */
   .btn-primary {
     background: var(--accent);
     color: #0d0d0d;
@@ -149,6 +169,7 @@
   }
   .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
 
+  /* Botão secundário (só texto sublinhado) — ex: "Entre em contato" */
   .btn-ghost {
     color: var(--muted);
     padding: 0.75rem 0;
@@ -162,6 +183,7 @@
   }
   .btn-ghost:hover { color: var(--text); border-color: var(--text); }
 
+  /* Cidade/país exibidos no canto inferior direito do hero */
   .hero-meta {
     position: absolute;
     bottom: 5rem;
@@ -179,14 +201,19 @@
     font-weight: 300;
   }
 
-  /* ── SECTIONS ── */
+  /* ══════════════════════════════════════════════
+     FASE 3 — ESTRUTURA GERAL DAS SEÇÕES
+     (título + rótulo repetidos em Sobre, Jornada,
+     Experiência, Formação, Cursos e Contato)
+     ══════════════════════════════════════════════ */
   .section {
     padding: 6rem 3rem;
-    border-top: 0.5px solid var(--line);
+    border-top: 0.5px solid var(--line); /* linha fina separando cada seção */
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto; /* centraliza o conteúdo na página */
   }
 
+  /* Grade de 2 colunas: rótulo pequeno à esquerda, título grande à direita */
   .section-header {
     display: grid;
     grid-template-columns: 200px 1fr;
@@ -212,15 +239,17 @@
     color: var(--text);
   }
 
-  /* ── EXPERIENCE ── */
+  /* ══════════════════════════════════════════════
+     FASE 4 — EXPERIÊNCIA PROFISSIONAL
+     ══════════════════════════════════════════════ */
   .exp-item {
     display: grid;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 200px 1fr; /* data/empresa à esquerda, cargo/descrição à direita */
     gap: 3rem;
     padding: 2.5rem 0;
     border-top: 0.5px solid var(--line);
   }
-  .exp-item:first-child { border-top: none; }
+  .exp-item:first-child { border-top: none; } /* o primeiro item não precisa de linha acima */
 
   .exp-meta {
     padding-top: 0.15rem;
@@ -256,16 +285,18 @@
     font-weight: 300;
   }
 
-  /* ── SKILLS ── */
+  /* ══════════════════════════════════════════════
+     FASE 5 — SKILLS (tags de habilidades na seção Sobre)
+     ══════════════════════════════════════════════ */
   .skills-grid {
     display: grid;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 200px 1fr; /* mesma grade de 2 colunas usada nas seções */
     gap: 3rem;
   }
 
   .skill-tags {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* as tags quebram linha automaticamente */
     gap: 0.6rem;
   }
 
@@ -280,7 +311,9 @@
     letter-spacing: 0.03em;
   }
 
-  /* ── EDUCATION ── */
+  /* ══════════════════════════════════════════════
+     FASE 6 — FORMAÇÃO ACADÊMICA
+     ══════════════════════════════════════════════ */
   .edu-item {
     display: grid;
     grid-template-columns: 200px 1fr;
@@ -289,9 +322,12 @@
     border-top: 0.5px solid var(--line);
   }
 
-  /* ── COURSES ── */
+  /* ══════════════════════════════════════════════
+     FASE 7 — LISTA DE CURSOS
+     ══════════════════════════════════════════════ */
   .courses-list {
     display: grid;
+    /* cria quantas colunas de no mínimo 280px couberem na largura disponível */
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 0;
   }
@@ -299,7 +335,7 @@
   .course-item {
     padding: 1.25rem 1.5rem;
     border: 0.5px solid var(--line);
-    margin: -0.25px;
+    margin: -0.25px; /* sobrepõe levemente as bordas para não duplicar linhas entre cards */
     transition: background 0.2s;
   }
 
@@ -325,12 +361,14 @@
     letter-spacing: 0.06em;
   }
 
-  /* ── CERTS ── */
+  /* ══════════════════════════════════════════════
+     FASE 8 — GRADE DE CERTIFICADOS (cards com link para o PDF)
+     ══════════════════════════════════════════════ */
   .certs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1px;
-    background: var(--line);
+    background: var(--line); /* aparece como as linhas finas entre os cards */
   }
 
   .cert-card {
@@ -338,7 +376,7 @@
     padding: 1.75rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between; /* nome no topo, link "Ver PDF" embaixo */
     min-height: 140px;
     transition: background 0.2s;
   }
@@ -355,7 +393,7 @@
     color: var(--text);
     font-weight: 400;
     line-height: 1.4;
-    flex: 1;
+    flex: 1; /* empurra o link para o final do card */
     margin-bottom: 0.75rem;
   }
 
@@ -374,7 +412,9 @@
   }
   .cert-link:hover { color: var(--accent2); border-color: var(--accent2); }
 
-  /* ── CONTACT ── */
+  /* ══════════════════════════════════════════════
+     FASE 9 — CONTATO
+     ══════════════════════════════════════════════ */
   .contact-grid {
     display: grid;
     grid-template-columns: 200px 1fr;
@@ -411,7 +451,9 @@
   }
   a.contact-value:hover { color: var(--accent); }
 
-  /* ── FOOTER ── */
+  /* ══════════════════════════════════════════════
+     FASE 10 — RODAPÉ
+     ══════════════════════════════════════════════ */
   footer {
     border-top: 0.5px solid var(--line);
     padding: 2rem 3rem;
@@ -435,13 +477,13 @@
     letter-spacing: 0.06em;
   }
 
-  /* ── DIVIDER ── */
+  /* Linha divisória simples, reutilizada entre várias seções do HTML */
   .full-border {
     border-top: 0.5px solid var(--line);
     width: 100%;
   }
 
-  /* ── SCROLL INDICATOR ── */
+  /* Indicador "scroll" com uma linha, visível apenas no hero */
   .scroll-dot {
     position: absolute;
     bottom: 2.5rem;
@@ -462,7 +504,11 @@
     background: var(--muted);
   }
 
-  /* ── RESPONSIVE ── */
+  /* ══════════════════════════════════════════════
+     FASE 11 — RESPONSIVIDADE (telas até 768px, ex: celular)
+     Aqui as grades de 2 colunas viram 1 coluna e alguns
+     elementos decorativos somem para caber na tela pequena.
+     ══════════════════════════════════════════════ */
   @media (max-width: 768px) {
     nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
@@ -481,7 +527,11 @@
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ══════════════════════════════════════════════
+     FASE A — MENU DE NAVEGAÇÃO
+     Logo "RM" à esquerda + links que rolam até cada
+     seção da página pelo id (#sobre, #jornada...).
+     ══════════════════════════════════════════════ -->
 <nav>
   <a href="#hero" class="nav-logo">RM</a>
   <ul class="nav-links">
@@ -494,12 +544,16 @@
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- ══════════════════════════════════════════════
+     FASE B — HERO
+     Primeira coisa que o visitante vê: nome, uma frase
+     de apresentação, botões de ação e localização.
+     ══════════════════════════════════════════════ -->
 <section class="hero" id="hero">
   <div class="hero-eyebrow">Engenharia de Software · Gestão · Tecnologia</div>
   <h1 class="hero-name">Richard<br><em>Marlon</em><br>Oliveira</h1>
   <p class="hero-bio">
-    Empresário com mais de 8 anos no setor automotivo e estudante de Engenharia de Software. 
+    Empresário com mais de 8 anos no setor automotivo e estudante de Engenharia de Software.
     Desenvolvo sistemas em Python para automatizar a gestão da própria empresa — unindo tecnologia e operação no dia a dia.
   </p>
   <div class="hero-actions">
@@ -518,7 +572,10 @@
   </div>
 </section>
 
-<!-- SOBRE -->
+<!-- ══════════════════════════════════════════════
+     FASE C — SOBRE
+     Resumo de quem é o Richard + tags de habilidades.
+     ══════════════════════════════════════════════ -->
 <div class="full-border"></div>
 <div class="section" id="sobre">
   <div class="section-header">
@@ -551,7 +608,11 @@
   </div>
 </div>
 
-<!-- JORNADA -->
+<!-- ══════════════════════════════════════════════
+     FASE D — JORNADA
+     Conta a história em 3 blocos: o ramo automotivo,
+     o encontro com a tecnologia e a migração com propósito.
+     ══════════════════════════════════════════════ -->
 <div class="full-border"></div>
 <div class="section" id="jornada">
   <div class="section-header">
@@ -586,7 +647,11 @@
   </div>
 </div>
 
-<!-- EXPERIÊNCIA -->
+<!-- ══════════════════════════════════════════════
+     FASE E — EXPERIÊNCIA PROFISSIONAL
+     Cada cargo/empresa vira um ".exp-item" (data + cargo + descrição).
+     Hoje só tem um item, mas o padrão permite adicionar mais copiando o bloco.
+     ══════════════════════════════════════════════ -->
 <div class="full-border"></div>
 <div class="section" id="experiencia">
   <div class="section-header">
@@ -611,7 +676,10 @@
 
 </div>
 
-<!-- FORMAÇÃO -->
+<!-- ══════════════════════════════════════════════
+     FASE F — FORMAÇÃO ACADÊMICA
+     Mesma estrutura de ".exp-item", usando a classe ".edu-item".
+     ══════════════════════════════════════════════ -->
 <div class="full-border"></div>
 <div class="section" id="formacao">
   <div class="section-header">
@@ -631,7 +699,15 @@
   </div>
 </div>
 
-<!-- CURSOS -->
+<!-- ══════════════════════════════════════════════
+     FASE G — CURSOS E CERTIFICADOS
+     Duas listas: uma grade simples com nome/instituição/ano
+     de todos os cursos, e uma grade de cards com link para
+     baixar/abrir o PDF de cada certificado disponível.
+     Para adicionar um novo certificado: 1) copie um ".course-item"
+     com os dados do curso, 2) copie um ".cert-card" apontando
+     para o PDF salvo na pasta "images/".
+     ══════════════════════════════════════════════ -->
 <div class="full-border"></div>
 <div class="section" id="cursos">
   <div class="section-header">
@@ -639,6 +715,7 @@
     <h2 class="section-title">Aprendizado<br>contínuo.</h2>
   </div>
 
+  <!-- Lista de cursos (sem link, só informação) -->
   <div class="courses-list">
     <div class="course-item">
       <div class="course-name">Git e GitHub</div>
@@ -712,6 +789,7 @@
     </div>
   </div>
 
+  <!-- Grade de certificados com link direto para o PDF (pasta images/) -->
   <div style="margin-top:3rem;">
     <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1.5rem; letter-spacing:0.06em; text-transform:uppercase;">Certificados disponíveis</p>
     <div class="certs-grid">
@@ -751,7 +829,11 @@
   </div>
 </div>
 
-<!-- CONTATO -->
+<!-- ══════════════════════════════════════════════
+     FASE H — CONTATO
+     Email, telefone, LinkedIn, GitHub e localização,
+     cada um como um link clicável (mailto:, tel:, etc).
+     ══════════════════════════════════════════════ -->
 <div class="full-border"></div>
 <div class="section" id="contato">
   <div class="section-header">
@@ -786,7 +868,10 @@
   </div>
 </div>
 
-<!-- DEDICATÓRIA -->
+<!-- ══════════════════════════════════════════════
+     FASE I — DEDICATÓRIA
+     Bloco de citação pessoal, só texto, sem interação.
+     ══════════════════════════════════════════════ -->
 <div class="full-border"></div>
 <div class="section" style="text-align:center; padding:5rem 3rem;">
   <p style="font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin-bottom:2rem; font-weight:400;">Dedicatória</p>
@@ -796,24 +881,35 @@
   <p style="font-size:0.82rem; color:var(--muted); font-weight:300; letter-spacing:0.06em;">— Com amor e gratidão</p>
 </div>
 
-<!-- FOOTER -->
+<!-- ══════════════════════════════════════════════
+     FASE J — RODAPÉ
+     ══════════════════════════════════════════════ -->
 <div class="full-border" style="max-width:1200px; margin:0 auto;"></div>
 <footer>
   <span class="footer-copy">© 2025 Richard Marlon Santos Oliveira</span>
   <span class="footer-location">Belo Horizonte · MG · Brasil</span>
 </footer>
 
+<!-- ══════════════════════════════════════════════
+     FASE K — JAVASCRIPT (comportamento interativo)
+     ══════════════════════════════════════════════ -->
 <script>
+  // 1) Scroll suave: intercepta cliques em qualquer link que comece com "#"
+  //    (ex: <a href="#sobre">) e rola a página até o elemento com aquele id,
+  //    em vez do "pulo" seco padrão do navegador.
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
       if (target) {
-        e.preventDefault();
+        e.preventDefault(); // cancela o comportamento padrão do link
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   });
 
+  // 2) Ao rolar a página, deixa a linha inferior do menu (nav) um pouco
+  //    mais visível depois de passar de 50px de scroll — um leve feedback
+  //    visual de que o usuário já saiu do topo da página.
   const nav = document.querySelector('nav');
   window.addEventListener('scroll', () => {
     nav.style.borderBottomColor = window.scrollY > 50
